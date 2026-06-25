@@ -10,6 +10,7 @@
 <meta name="theme-color" content="#0a0a0a" />
 
 <!-- iOS PWA -->
+<meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="RNCO APV Simulator" />
@@ -28,6 +29,23 @@
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel" data-presets='[["react",{"runtime":"classic"}]]' src="app.jsx"></script>
+<script>
+  fetch("app.jsx")
+    .then((r) => r.text())
+    .then((code) => {
+      const transformed = Babel.transform(code, {
+        presets: [["react", { runtime: "classic" }]],
+        filename: "app.jsx",
+      }).code;
+      const script = document.createElement("script");
+      script.text = transformed;
+      document.body.appendChild(script);
+    })
+    .catch((err) => {
+      document.getElementById("root").innerHTML =
+        '<div style="color:#e07a5f;padding:24px;font-family:sans-serif">Error cargando la app: ' + err.message + "</div>";
+      console.error(err);
+    });
+</script>
 </body>
 </html>
