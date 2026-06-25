@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>RNCO APV Simulator</title>
+<meta name="description" content="Simulador de beneficios APV (Régimen A vs Régimen B) — Chile" />
+
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0a0a0a" />
+
+<!-- iOS PWA -->
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="RNCO APV Simulator" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<link rel="icon" href="icons/favicon.png" />
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@0.288.0/dist/umd/lucide.min.js"></script>
+
+<style>
+  html, body { margin: 0; background: #0a0a0a; }
+  #root { min-height: 100vh; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  fetch("app.jsx")
+    .then((r) => r.text())
+    .then((code) => {
+      const transformed = Babel.transform(code, {
+        presets: [["react", { runtime: "classic" }]],
+        filename: "app.jsx",
+      }).code;
+      const script = document.createElement("script");
+      script.text = transformed;
+      document.body.appendChild(script);
+    })
+    .catch((err) => {
+      document.getElementById("root").innerHTML =
+        '<div style="color:#e07a5f;padding:24px;font-family:sans-serif">Error cargando la app: ' + err.message + "</div>";
+      console.error(err);
+    });
+</script>
+</body>
+</html>
