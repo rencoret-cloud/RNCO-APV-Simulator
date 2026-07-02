@@ -120,7 +120,7 @@ function uf(n) {
 }
 
 // ---------------------------------------------------------------------------
-// Hook: indicadores económicos en vivo (UF / UTM) desde mindicador.cl
+// Hook: indicadores económicos en vivo (UF / UTM) desde Banco Central de Chile
 // ---------------------------------------------------------------------------
 function useIndicadores() {
   const [state, setState] = useState({ status: "loading", uf: null, utm: null, fecha: null });
@@ -561,7 +561,7 @@ function APVSimulator() {
           </div>
         )}
 
-        <div style={styles.pageFooter}>RNCO APV Simulator — UF/UTM en vivo vía mindicador.cl. Cálculos referenciales, no constituyen asesoría tributaria ni previsional.</div>
+        <div style={styles.pageFooter}>RNCO APV Simulator — UF/UTM en vivo vía Banco Central de Chile. Cálculos referenciales.</div>
       </div>
 
       <style>{`
