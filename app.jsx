@@ -148,8 +148,42 @@ function useIndicadores() {
 }
 
 // ---------------------------------------------------------------------------
-// Motor de cálculo (replica exacta de la hoja "SIM BEN APV")
+// Calcula cuánto APV (Régimen B) se necesita para bajar al tramo anterior
 // ---------------------------------------------------------------------------
+function calcularApvParaBajarTramo(rentaAfectaSinApv, utmValor, ufValor) {
+  const rentaUTM = rentaAfectaSinApv / utmValor;
+
+  // Encuentra el tramo actual
+  let tramoActualIdx = 0;
+  for (let i = 0; i < TAX_BRACKETS_UTM.length; i++) {
+    if (rentaUTM <= TAX_BRACKETS_UTM[i].hastaUTM) {
+      tramoActualIdx = i;
+      break;
+    }
+    tramoActualIdx = i;
+  }
+
+  // Si ya está en el tramo más bajo (0%), no hay tramo anterior
+  if (tramoActualIdx === 0) return null;
+
+  const tramoActual = TAX_BRACKETS_UTM[tramoActualIdx];
+  const tramoAnterior = TAX_BRACKETS_UTM[tramoActualIdx - 1];
+
+  // El límite superior del tramo anterior (en pesos) es el tope de ese tramo
+  const limiteEnPesos = tramoAnterior.hastaUTM * utmValor;
+
+  // APV necesario = renta afecta actual - límite superior del tramo anterior
+  const apvNecesarioPesos = Math.max(0, rentaAfectaSinApv - limiteEnPesos);
+  const apvNecesarioUF = ufValor > 0 ? apvNecesarioPesos / ufValor : 0;
+
+  return {
+    tramoActual: tramoActual.tasa,
+    tramoDestino: tramoAnterior.tasa,
+    apvNecesarioPesos,
+    apvNecesarioUF,
+    limiteEnPesos,
+  };
+}
 function calcular(inputs) {
   const { ufValor, utmValor, rentaBruta, pagoSalud, edad, sexo, afp, apvUF,
           perfilRiesgo, saldoAFP, saldoAPV, edadPension, pensionDeseada } = inputs;
@@ -221,8 +255,11 @@ function calcular(inputs) {
   const apvMensualNecesarioPesos = factor2 === 0 ? 0 : (brechaPension * divisorRV) / factor2;
   const apvMensualNecesarioUF = ufValor === 0 ? 0 : apvMensualNecesarioPesos / ufValor;
 
+  const bajarTramo = calcularApvParaBajarTramo(sinApv.rentaAfecta, utmValor, ufValor);
+
   return {
     sinApv, regA, regB,
+    bajarTramo,
     pension: {
       aniosRestantes, factor1, factor2, divisorRV,
       saldoProyectado, pensionProyectada,
@@ -439,6 +476,34 @@ function APVSimulator() {
                 {ufValor > 0 && <span style={styles.pensionStatSub}>≈ {clp(result.pension.apvMensualNecesarioUF * ufValor)} / mes</span>}
               </div>
             </div>
+
+            {/* APV para bajar de tramo — sólo en Régimen B y si hay un tramo anterior */}
+            {result.bajarTramo && (
+              <div style={styles.bajarTramoBox}>
+                <div style={styles.bajarTramoTitle}>Régimen B · aporte para bajar de tramo tributario</div>
+                <div style={styles.bajarTramoRow}>
+                  <span style={styles.bajarTramoLabel}>Tramo actual</span>
+                  <span style={styles.bajarTramoValue}>{pct(result.bajarTramo.tramoActual)}</span>
+                </div>
+                <div style={styles.bajarTramoRow}>
+                  <span style={styles.bajarTramoLabel}>Tramo destino</span>
+                  <span style={styles.bajarTramoValue}>{pct(result.bajarTramo.tramoDestino)}</span>
+                </div>
+                <div style={{ ...styles.bajarTramoRow, marginTop: 8, paddingTop: 8, borderTop: "1px solid #1e3a5f" }}>
+                  <span style={styles.bajarTramoLabel}>APV mensual necesario (Rég. B)</span>
+                  <div style={{ textAlign: "right" }}>
+                    <span style={styles.bajarTramoHighlight}>{uf(result.bajarTramo.apvNecesarioUF)}</span>
+                    <div style={styles.bajarTramoSub}>≈ {clp(result.bajarTramo.apvNecesarioPesos)} / mes</div>
+                    <div style={styles.bajarTramoSub}>Renta afecta quedaría en {clp(result.bajarTramo.limiteEnPesos)}</div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {!result.bajarTramo && rentaBruta > 0 && (
+              <div style={styles.bajarTramoBox}>
+                <span style={{ color: "#6f7785", fontSize: 12.5 }}>Ya estás en el tramo más bajo (exento). No hay tramo anterior al cual bajar.</span>
+              </div>
+            )}
           )}
           <div style={styles.footnote}>Proyección referencial: capitaliza el saldo actual y los aportes mensuales (AFP + APV) según el perfil de riesgo elegido, y los convierte a renta vitalicia mensual según tablas de esperanza de vida por edad y sexo. No reemplaza una certificación de tu AFP.</div>
         </div>
@@ -544,6 +609,13 @@ const styles = {
   pensionGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 14, marginTop: 18 },
   pensionStat: { background: "#0e1116", border: "1px solid #2a313c", borderRadius: 12, padding: "14px 16px", display: "flex", flexDirection: "column", gap: 4 },
   pensionStatAccent: { borderColor: "#2c4a82", background: "#10182a" },
+  bajarTramoBox: { marginTop: 14, background: "#0d1b2e", border: "1px solid #1e3a5f", borderRadius: 12, padding: "14px 16px", display: "flex", flexDirection: "column", gap: 6 },
+  bajarTramoTitle: { fontSize: 12.5, fontWeight: 700, color: "#4d8eff", marginBottom: 4 },
+  bajarTramoRow: { display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 13 },
+  bajarTramoLabel: { color: "#8a929d" },
+  bajarTramoValue: { color: "#e7e9ec", fontWeight: 600 },
+  bajarTramoHighlight: { fontSize: 20, fontWeight: 800, color: "#4d8eff" },
+  bajarTramoSub: { fontSize: 11.5, color: "#6f7785", textAlign: "right", marginTop: 2 },
   pensionStatLabel: { fontSize: 11.5, color: "#8a929d" },
   pensionStatValue: { fontSize: 19, fontWeight: 800 },
   pensionStatSub: { fontSize: 11.5, color: "#6f7785" },
