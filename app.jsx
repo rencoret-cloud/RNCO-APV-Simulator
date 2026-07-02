@@ -370,7 +370,7 @@ function APVSimulator() {
   const [saldoAFP, setSaldoAFP] = useState(0);
   const [saldoAPV, setSaldoAPV] = useState(0);
   const [edadPension, setEdadPension] = useState(0); // 0 = usar default por sexo
-  const [pensionDeseada, setPensionDeseada] = useState(1000000);
+  const [pensionDeseada, setPensionDeseada] = useState(1500000);
 
   // Resultados al instante: usa el valor en vivo si ya llegó, o el de
   // respaldo mientras tanto — nunca se espera a la red para mostrar números.
