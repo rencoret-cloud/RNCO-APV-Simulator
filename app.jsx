@@ -361,7 +361,7 @@ function APVSimulator() {
   const [rentaBruta, setRentaBruta] = useState(1500000);
   const [pagoSalud, setPagoSalud] = useState(Math.round(1500000 * 0.07));
   const [pagoSaludManual, setPagoSaludManual] = useState(false);
-  const [edad, setEdad] = useState(40);
+  const [edad, setEdad] = useState(30);
   const [sexo, setSexo] = useState("Masculino");
   const [afp, setAfp] = useState(AFP_LIST[0]);
   const [apvUF, setApvUF] = useState(0);
