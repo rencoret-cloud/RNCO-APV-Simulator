@@ -481,7 +481,7 @@ function APVSimulator() {
                 <span style={styles.pensionStatValue}>{clp(result.pension.pensionProyectada)}</span>
               </div>
               <div style={{ ...styles.pensionStat, ...styles.pensionStatAccent }}>
-                <span style={styles.pensionStatLabel}>APV mensual necesario para proyeccion de pension</span>
+                <span style={styles.pensionStatLabel}>Aporte APV mensual para proyección de pensión</span>
                 <span style={styles.pensionStatValue}>{uf(result.pension.apvMensualNecesarioUF)}</span>
                 {ufValor > 0 && <span style={styles.pensionStatSub}>≈ {clp(result.pension.apvMensualNecesarioUF * ufValor)} / mes</span>}
               </div>
@@ -522,7 +522,7 @@ function APVSimulator() {
               <span style={{ color: "#6f7785", fontSize: 12.5 }}>Ya estás en el tramo más bajo (exento). No hay tramo anterior al cual bajar.</span>
             </div>
           )}
-          <div style={styles.footnote}>Proyección referencial: capitaliza el saldo actual y los aportes mensuales (AFP + APV) según el perfil de riesgo elegido, y los convierte a renta vitalicia mensual según tablas de esperanza de vida por edad y sexo. No reemplaza una certificación de tu AFP.</div>
+          <div style={styles.footnote}>Proyección referencial: capitaliza el saldo actual y los aportes mensuales (AFP + APV) según el perfil de riesgo elegido, y los convierte a renta vitalicia mensual según tablas de esperanza de vida por edad y sexo.</div>
         </div>
 
         {/* Comparación de beneficios (Régimen A vs B) */}
@@ -561,7 +561,7 @@ function APVSimulator() {
           </div>
         )}
 
-        <div style={styles.pageFooter}>RNCO APV Simulator — UF/UTM en vivo vía Banco Central de Chile. Cálculos referenciales.</div>
+        <div style={styles.pageFooter}>RNCO APV Simulator — UF/UTM vía Banco Central de Chile. Cálculos referenciales.</div>
       </div>
 
       <style>{`
