@@ -364,7 +364,7 @@ function APVSimulator() {
   const [edad, setEdad] = useState(40);
   const [sexo, setSexo] = useState("Masculino");
   const [afp, setAfp] = useState(AFP_LIST[0]);
-  const [apvUF, setApvUF] = useState(5);
+  const [apvUF, setApvUF] = useState(0);
 
   const [perfilRiesgo, setPerfilRiesgo] = useState("Moderado");
   const [saldoAFP, setSaldoAFP] = useState(0);
