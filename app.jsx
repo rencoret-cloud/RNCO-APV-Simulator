@@ -481,7 +481,7 @@ function APVSimulator() {
                 <span style={styles.pensionStatValue}>{clp(result.pension.pensionProyectada)}</span>
               </div>
               <div style={{ ...styles.pensionStat, ...styles.pensionStatAccent }}>
-                <span style={styles.pensionStatLabel}>APV mensual necesario</span>
+                <span style={styles.pensionStatLabel}>APV mensual necesario para proyeccion de pension</span>
                 <span style={styles.pensionStatValue}>{uf(result.pension.apvMensualNecesarioUF)}</span>
                 {ufValor > 0 && <span style={styles.pensionStatSub}>≈ {clp(result.pension.apvMensualNecesarioUF * ufValor)} / mes</span>}
               </div>
