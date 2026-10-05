@@ -3,47 +3,46 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>RNCO APV Simulator</title>
-<meta name="description" content="Simulador de beneficios APV (Régimen A vs Régimen B) — Chile" />
-
+<title>MetLife · Simulador APV</title>
+<meta name="description" content="Simulador de beneficios APV (Régimen A vs B) y proyección de pensión — MetLife Chile" />
 <link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#0a0a0a" />
-
-<!-- iOS PWA -->
+<meta name="theme-color" content="#003652" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="RNCO APV Simulator" />
+<meta name="apple-mobile-web-app-title" content="APV Simulator" />
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
 <link rel="icon" href="icons/favicon.png" />
-
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
 <style>
-  html, body { margin: 0; background: #0a0a0a; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #003652; min-height: 100vh; }
   #root { min-height: 100vh; }
+  #loading { display:flex; align-items:center; justify-content:center; min-height:100vh; color:#CBF1FF; font-family:Inter,sans-serif; font-size:15px; }
 </style>
 </head>
 <body>
-<div id="root"></div>
+<div id="root"><div id="loading">Cargando simulador…</div></div>
 <script>
   fetch("app.jsx")
-    .then((r) => r.text())
-    .then((code) => {
+    .then(r => r.text())
+    .then(code => {
       const transformed = Babel.transform(code, {
         presets: [["react", { runtime: "classic" }]],
         filename: "app.jsx",
       }).code;
-      const script = document.createElement("script");
-      script.text = transformed;
-      document.body.appendChild(script);
+      const s = document.createElement("script");
+      s.text = transformed;
+      document.body.appendChild(s);
     })
-    .catch((err) => {
+    .catch(err => {
       document.getElementById("root").innerHTML =
-        '<div style="color:#e07a5f;padding:24px;font-family:sans-serif">Error cargando la app: ' + err.message + "</div>";
-      console.error(err);
+        '<div style="color:#e07a5f;padding:24px;font-family:Inter,sans-serif">Error cargando el simulador: ' + err.message + '</div>';
     });
 </script>
 </body>
