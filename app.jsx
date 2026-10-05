@@ -247,12 +247,12 @@ function APVSimulator() {
   const [edad,            setEdad]            = useState(40);
   const [sexo,            setSexo]            = useState("Masculino");
   const [afp,             setAfp]             = useState(AFP_LIST[0]);
-  const [apvUF,           setApvUF]           = useState(5);
+  const [apvUF,           setApvUF]           = useState(0);
   const [perfilRiesgo,    setPerfilRiesgo]    = useState("Moderado");
   const [saldoAFP,        setSaldoAFP]        = useState(0);
   const [saldoAPV,        setSaldoAPV]        = useState(0);
   const [edadPension,     setEdadPension]     = useState(0);
-  const [pensionDeseada,  setPensionDeseada]  = useState(1000000);
+  const [pensionDeseada,  setPensionDeseada]  = useState(1500000);
 
   const saludMinima = Math.round(Math.min(rentaBruta, 90*ufValor)*0.07);
   useEffect(() => { if (!pagoSaludManual) setPagoSalud(saludMinima); }, [rentaBruta, ufValor, pagoSaludManual]);
@@ -270,7 +270,7 @@ function APVSimulator() {
             <img src={METLIFE_LOGO_B64} alt="MetLife" style={S.headerLogo} />
           </div>
           <div style={S.headerText}>
-            <h1 style={S.headerTitle}>Simulador APV</h1>
+            <h1 style={S.headerTitle}>Simulador APV desarrollado por RNCO</h1>
             <div style={S.headerSub}>
               Régimen A vs. Régimen B · Proyección de pensión
               <span style={S.statusDot} title={econ.status==="ok"?"UF/UTM en vivo":econ.status==="error"?"Sin conexión":"Conectando…"}>
