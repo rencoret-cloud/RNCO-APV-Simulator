@@ -1,6 +1,6 @@
 {
-  "name": "MetLife APV Simulator",
-  "short_name": "MetLife APV",
+  "name": "APV Simulator",
+  "short_name": "APV Simulator",
   "description": "Simulador de beneficios APV Régimen A vs B y proyección de pensión",
   "start_url": "./index.html",
   "scope": "./",
