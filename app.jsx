@@ -270,7 +270,7 @@ function APVSimulator() {
             <img src={METLIFE_LOGO_B64} alt="MetLife" style={S.headerLogo} />
           </div>
           <div style={S.headerText}>
-            <h1 style={S.headerTitle}>RNCO Simulador APV</h1>
+            <h1 style={S.headerTitle}>Simulador APV</h1>
             <div style={S.headerSub}>
               Régimen A vs. Régimen B · Proyección de pensión
               <span style={S.statusDot} title={econ.status==="ok"?"UF/UTM en vivo":econ.status==="error"?"Sin conexión":"Conectando…"}>
@@ -383,7 +383,7 @@ function APVSimulator() {
           </div>
         )}
 
-        <div style={S.pageFooter}>MetLife Chile · Simulador APV · Datos UF/UTM en vivo vía Banco Central de Chile. Cálculos referenciales, no constituyen asesoría tributaria ni previsional.</div>
+        <div style={S.pageFooter}>Simulador APV · Desarrollado por RNCO · Datos UF/UTM en vivo vía Banco Central de Chile. Cálculos referenciales, no constituyen asesoría tributaria ni previsional.</div>
       </div>
       <style>{`
         * { box-sizing: border-box; }
