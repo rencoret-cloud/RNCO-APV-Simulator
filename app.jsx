@@ -403,8 +403,8 @@ const S = {
   container: { maxWidth:980, margin:"0 auto" },
 
   header: { display:"flex", alignItems:"center", gap:20, borderBottom:`1px solid ${ML.border}`, paddingBottom:20, marginBottom:24, flexWrap:"wrap" },
-  headerLogoWrap: { borderRadius:14, overflow:"hidden", flexShrink:0, height:96, background: ML.blue950 },
-  headerLogo: { height:96, width:"auto", display:"block" },
+  headerLogoWrap: { borderRadius:14, overflow:"hidden", flexShrink:0, height:80, background: ML.blue950 },
+  headerLogo: { height:80, width:"auto", display:"block" },
   headerText: { flex:1 },
   headerTitle: { margin:0, fontSize:22, fontWeight:800, letterSpacing:"-0.02em", color: ML.text },
   headerSub:  { fontSize:13, color: ML.textMuted, marginTop:3, display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" },
