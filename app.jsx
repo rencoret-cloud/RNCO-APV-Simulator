@@ -272,7 +272,6 @@ function APVSimulator() {
           <div style={S.headerText}>
             <h1 style={S.headerTitle}>Simulador APV</h1>
             <div style={S.headerSub}>
-              Régimen A vs. Régimen B · Proyección de pensión
               <span style={S.statusDot} title={econ.status==="ok"?"UF/UTM en vivo":econ.status==="error"?"Sin conexión":"Conectando…"}>
                 <span style={{...S.dot, ...(econ.status==="ok"?S.dotOk:econ.status==="error"?S.dotErr:S.dotWait)}} />
                 {econ.status==="ok"?"en vivo":econ.status==="error"?"sin conexión":"conectando…"}
